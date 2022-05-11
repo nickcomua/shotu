@@ -1,7 +1,6 @@
 import { DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawer";
 import React from "react";
 import { SafeAreaView, Button, Text, View,Image, ImageBackground, TouchableHighlight, TouchableOpacity } from "react-native";
-import * as FileSystem from 'expo-file-system';
 export default ({props, username,dispatch,photo}:any):any => {
     return (
       <View style={{flex: 1}}>

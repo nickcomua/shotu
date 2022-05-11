@@ -4,25 +4,16 @@ import i18n from 'i18n-js';
 import { useFonts } from '@expo-google-fonts/inter';
 import { Button, StyleSheet,Image, Text, View, TextInput, SafeAreaView, useWindowDimensions, TouchableWithoutFeedback, LogBox, Settings, ImageBackground, TouchableOpacity, TouchableHighlight } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack'; 
-//import {HomeScreen} from "./Screens/HomeScreen";
-//import AppLoading from 'expo-app-loading';
-import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
-import { persistStore, persistReducer } from 'redux-persist'
-import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';   
 import { connect, ConnectedComponent, InferableComponentEnhancerWithProps, Provider} from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react'; 
-import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
-import { ReactElement } from 'react';
-import AppLoading from 'expo-app-loading';
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer'; 
 import LoginScreen from './src/screens/login';
 import MainScreen from './src/screens/main';
 import WelcomeScreen from './src/screens/welcome';
 import CastomMenu from './src/screens/menudrawer';
 import SettingsScreen from './src/screens/settings';
-import {store, persistor, RootState} from './src/store';
-
+import {store, persistor, RootState} from './src/store'; 
 
 i18n.translations = {
   ua: { welcometext: 'привітальний текст' },
@@ -44,7 +35,7 @@ export default function App() {
   );
 }
 
-const Base : any = connect((state:RootState) => {return {...state.user,...state.settings}})(({dispatch,isLogined,username,photo}:any)  =>  {
+const Base = connect((state:RootState) => {return {...state.user,...state.settings}})(({dispatch,isLogined,username,photo}:any)  =>  {
   console.log('App');  
   //console.log(require('./assets/images/user-profile.jpg'))
   let [fontsLoaded] = useFonts({
