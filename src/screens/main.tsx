@@ -10,7 +10,7 @@ export default connect((state:any )=> state.user)(({ navigation, dispatch, usern
       <SafeAreaView >
         <Text>{i18n.t('welcometext')}</Text>
         <Text>{username}</Text>
-        <Button onPress={() => dispatch({type:'LOGOUT'})} title={i18n.t('logout')} />
+        <Button onPress={() => navigation.} title={i18n.t('logout')} />
       </SafeAreaView>
     );
   });

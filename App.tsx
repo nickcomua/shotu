@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
+import * as FileSystem from "expo-file-system";
 import { useFonts } from '@expo-google-fonts/inter';
 import { Button, StyleSheet,Image, Text, View, TextInput, SafeAreaView, useWindowDimensions, TouchableWithoutFeedback, LogBox, Settings, ImageBackground, TouchableOpacity, TouchableHighlight } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -14,6 +15,8 @@ import WelcomeScreen from './src/screens/welcome';
 import CastomMenu from './src/screens/menudrawer';
 import SettingsScreen from './src/screens/settings';
 import {store, persistor, RootState} from './src/store'; 
+import { useCallback } from 'react';
+import * as SplashScreen from 'expo-splash-screen';
 
 i18n.translations = {
   ua: { welcometext: 'привітальний текст' },
@@ -26,6 +29,8 @@ i18n.fallbacks = true;
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 export default function App() {
+  //store.dispatch({type:"SET_PHOTO_1" });
+  //store.dispatch({type:"SET_LOADING_FALSE" });
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
@@ -35,8 +40,8 @@ export default function App() {
   );
 }
 
-const Base = connect((state:RootState) => {return {...state.user,...state.settings}})(({dispatch,isLogined,username,photo}:any)  =>  {
-  console.log('App');  
+const Base = connect((state:RootState) => {return {...state.user,...state.settings}})(({dispatch,isLogined,username,photo,isLoading}:any)  =>  {
+  console.log('App'+isLoading);  
   //console.log(require('./assets/images/user-profile.jpg'))
   let [fontsLoaded] = useFonts({
     'Roboto-Medium': require('./assets/fonts/Roboto-Medium.ttf'),
@@ -47,10 +52,31 @@ const Base = connect((state:RootState) => {return {...state.user,...state.settin
     'Roboto-MediumItalic': require('./assets/fonts/Roboto-MediumItalic.ttf'),
 
    });
+   
+   const [Base64Val, setBase64Val] = React.useState<string|null>(null);
+     React.useEffect(() => { 
+       const f =async () => {
+  let uri = FileSystem.documentDirectory + 'avatar.png';
+  let getInfo = await FileSystem.getInfoAsync(uri);
+  //getInfo && console.log(getInfo);
+  let options = { encoding: FileSystem.EncodingType.Base64 };
+  let base64 = await FileSystem.readAsStringAsync(uri, options);
+  setBase64Val("data:image/jpeg;base64," + base64);
+        dispatch({type:"SET_LOADING_FALSE" });
+       }
+        f();
+  }, [isLoading]);
 
-   if (!fontsLoaded) {
-     return <></>;
+  const onLayoutRootView = useCallback(async () => {
+    if (!isLoading) { 
+      await SplashScreen.hideAsync();
+    }
+  }, [!isLoading]);
+
+   if (!fontsLoaded||isLoading) {
+     return null;
    }
+
    //dispatch({type:'SET_PHOTO', 'payload':null});
   if(!isLogined)
   return (  
@@ -68,7 +94,7 @@ const Base = connect((state:RootState) => {return {...state.user,...state.settin
           <NavigationContainer>
             <Drawer.Navigator useLegacyImplementation
       
-      drawerContent={props => <CastomMenu {...{props:{...props},username,dispatch,photo}} />}
+      drawerContent={props => <CastomMenu {...{props:{...props},username,dispatch,photo:Base64Val}} />}
       screenOptions={{
         //headerShown: false,
         drawerActiveBackgroundColor: '#aa18ea',

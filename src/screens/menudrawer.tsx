@@ -1,7 +1,8 @@
 import { DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawer";
-import React from "react";
+import React, { useEffect } from "react";
 import { SafeAreaView, Button, Text, View,Image, ImageBackground, TouchableHighlight, TouchableOpacity } from "react-native";
-export default ({props, username,dispatch,photo}:any):any => {
+export default ({props, username,dispatch,photo}:any):any => { 
+  
     return (
       <View style={{flex: 1}}>
         <DrawerContentScrollView
@@ -10,9 +11,9 @@ export default ({props, username,dispatch,photo}:any):any => {
           {/* <ImageBackground
             source={require('../../assets/images/menu-bg.jpeg')}
             style={{padding: 20}}> */}
-              <TouchableHighlight underlayColor="" onPress={() => alert("HI")}>
+              <TouchableHighlight underlayColor="" onPress={() => {               }}>
             <Image 
-              source={ photo ? {uri:photo} : require('../../assets/images/user-profile.png')
+              source={{uri:photo} //photo ? {uri:photo} : require(FileSystem.documentDirectory + 'avatar.png')
             }
               style={{height: 80, width: 80, borderRadius: 40, marginBottom: 10, marginLeft: 10}}
             /></TouchableHighlight>

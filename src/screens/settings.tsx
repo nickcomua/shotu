@@ -3,20 +3,29 @@ import { SafeAreaView, Button,Text, View } from "react-native";
 import { connect } from "react-redux";
 import i18n from "i18n-js"; 
 import * as ImagePicker from 'expo-image-picker';
+import * as FileSystem from 'expo-file-system';
+
 
 const pickImage = async (dispatch:any) => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
+      allowsEditing: true, 
+      base64: true,
       aspect: [1, 1],
       quality: 1,
     });
 
-    console.log(result);
+    //console.log(result);
 
     if (!result.cancelled) {
-       dispatch({type:"SET_PHOTO",payload:result.uri});
+      
+      FileSystem.writeAsStringAsync(FileSystem.documentDirectory + 'avatar.png',(result as any).base64,{
+        encoding: FileSystem.EncodingType.Base64,
+      });
+     // console.log(result.base64);
+
+     dispatch({type:"SET_LOADING_TRUE" });
     }
   };
 
