@@ -14,6 +14,8 @@ import MainScreen from './src/screens/main';
 import WelcomeScreen from './src/screens/welcome';
 import CastomMenu from './src/screens/menudrawer';
 import SettingsScreen from './src/screens/settings';
+import { RootDrawParmList, RootStackParamList } from './src/types/navigation';
+//import AddContact from './src/screens/addcontact';
 import {store, persistor, RootState} from './src/store'; 
 import { useCallback } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
@@ -26,8 +28,8 @@ i18n.translations = {
 i18n.locale = Localization.locale;
 i18n.fallbacks = true;
 
-const Stack = createNativeStackNavigator();
-const Drawer = createDrawerNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
+const Drawer = createDrawerNavigator<RootDrawParmList>();
 export default function App() {
   //store.dispatch({type:"SET_PHOTO_1" });
   //store.dispatch({type:"SET_LOADING_FALSE" });
@@ -95,20 +97,17 @@ const Base = connect((state:RootState) => {return {...state.user,...state.settin
             <Drawer.Navigator useLegacyImplementation
       
       drawerContent={props => <CastomMenu {...{props:{...props},username,dispatch,photo:Base64Val}} />}
-      screenOptions={{
-        //headerShown: false,
+      screenOptions={{ 
         drawerActiveBackgroundColor: '#aa18ea',
         drawerActiveTintColor: '#fff',
         drawerInactiveTintColor: '#333',
-        drawerLabelStyle: {
-          //marginLeft: 100,
+        drawerLabelStyle: { 
           fontFamily: 'Roboto-Medium',
           fontSize: 15,
         },
       }}>
-              <Drawer.Screen name="Main" component={MainScreen} />
-              <Drawer.Screen name="Settings" component={SettingsScreen} />
-
+              <Drawer.Screen options={{  headerShown: true,}} name="Main" component={MainScreen} />
+              <Drawer.Screen name="Settings" component={SettingsScreen} /> 
             </Drawer.Navigator>
           </NavigationContainer>
         </PersistGate>

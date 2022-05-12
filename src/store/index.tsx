@@ -23,9 +23,10 @@ const reducers = combineReducers({
  
  export const store = configureStore({
      reducer: persistedReducer,
-     devTools: process.env.NODE_ENV !== 'production',
+    // devTools: process.env.NODE_ENV !== 'production',
      middleware: [thunk]
  });
- export type RootState = ReturnType<typeof store.getState>
- export type AppDispatch = typeof store.dispatch 
+
+ export type RootState  = ReturnType<typeof store.getState>
+ export type AppDispatch = {dispatch: typeof store.dispatch}
 export const persistor = persistStore(store)

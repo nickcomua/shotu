@@ -1,10 +1,13 @@
 import React from "react";
 import i18n from "i18n-js";
-import { SafeAreaView, Button, Text, TextInput } from "react-native";
+import { SafeAreaView, Button, Text, TextInput, Settings } from "react-native";
 import { connect } from "react-redux";
+import { AppDispatch, RootState } from "../store";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 //hz
-export default  connect((state:any )=> {return {...state.user,...state.settings}})(({ navigation, dispatch, username, isLogined } :any) => {
-  console.log("login isLogined");
+type PropsLogin = NativeStackScreenProps<{ Welcome: undefined; Login: undefined; }, 'Login', 'Stack'> & RootState['settings']&  RootState['user'] & AppDispatch;
+export default  connect((state:RootState )=> {return {...state.user,...state.settings}})(({ navigation, dispatch, username, isLogined } :PropsLogin) => {
+  console.log("login "+username);
   const [logintext, onChangeText] = React.useState('');
   const temp = () => {
   //alert('username :'+logintext)
