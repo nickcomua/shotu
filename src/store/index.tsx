@@ -1,7 +1,6 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import userReducer from './user'
-import settingsReducer from './settings'
-//import AsyncStorage  from '@react-native-async-storage/async-storage'
+import settingsReducer from './settings' 
 import autoMergeLevel2 from 'redux-persist/es/stateReconciler/autoMergeLevel2'
 import { persistStore,persistReducer } from 'redux-persist' 
 import thunk from 'redux-thunk'

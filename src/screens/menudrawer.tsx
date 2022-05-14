@@ -1,5 +1,6 @@
 import { DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawer";
 import React, { useEffect } from "react";
+import { AntDesign } from '@expo/vector-icons'; 
 import { SafeAreaView, Button, Text, View,Image, ImageBackground, TouchableHighlight, TouchableOpacity } from "react-native";
 export default ({props, username,dispatch,photo}:any):any => { 
   
@@ -34,9 +35,9 @@ export default ({props, username,dispatch,photo}:any):any => {
                   fontFamily: 'Roboto-Regular',
                   marginRight: 5,
                 }}>
-                280 Coins
+                {getUniqueId()}
               </Text> 
-            </View> */}
+            </View>  */}
           {/* </ImageBackground> */}
           <View style={{flex: 1, backgroundColor: '#fff', paddingTop: 10}}>
             <DrawerItemList {...props} />
@@ -62,23 +63,23 @@ export default ({props, username,dispatch,photo}:any):any => {
               </Text>
             </View>
           </TouchableOpacity>
-          {/*
+        
           <TouchableOpacity onPress={() => {dispatch({type:'LOGOUT'})}} style={{paddingVertical: 15}}>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-             {//} <Ionicons name="exit-outline" size={22} />
-  }
+              <AntDesign name="logout" size={24} color="black" />
+  
               <Text
                 
                 style={{
                   fontSize: 15,
-              //    fontFamily: 'Roboto-Medium',
+                  fontFamily: 'Roboto-Medium',
                   marginLeft: 5,
                 }}>
                 Sign Out
               </Text>
             </View>
           </TouchableOpacity>
-              */}
+              
         </View>
       </View>
     );

@@ -7,9 +7,10 @@ import { Layout } from "react-native-reanimated";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { PropsMainStack,PropsMain,PropsAddContactStack } from "../types/navigation";
 import { AppDispatch, RootState } from "../store";
+import AddContact from "./addcontact";
+import ScanQR from "./scanqr";
 const Stack = createNativeStackNavigator();
-export default function App({navigation,route}:PropsMain) {
-  
+export default function App({navigation,route}:PropsMain) { 
     React.useLayoutEffect(() => {
       navigation.setOptions({
         headerShown: true,
@@ -20,29 +21,26 @@ export default function App({navigation,route}:PropsMain) {
     <Stack.Navigator   >
       <Stack.Screen name="MainInStack" component={MainScreen} options={{headerShown: false}}/>
       <Stack.Screen name="Add Contact" component={AddContact} />
+      <Stack.Screen name="ScanQR" component={ScanQR} />
     </Stack.Navigator>
   );
 }
 
-
-const AddContact = ({navigation}:PropsAddContactStack) => {
-  React.useLayoutEffect(() => {
-    navigation.getParent().setOptions({
-        headerShown: false,
-  });
- }, [navigation.getParent()]
-  );
-  return null;
-}
+ 
 type PropsComonMain = PropsMainStack & RootState['settings']&  RootState['user'] & AppDispatch;
-const MainScreen = connect((state:any )=> state.user)(({ navigation, dispatch, username } :PropsComonMain) => {
-    console.log('MainScreen'); 
+const MainScreen = connect((state:RootState )=> state.user)(({ navigation, dispatch, username } :PropsComonMain) => {
+    //console.log('MainScreen'); 
     const perents = navigation.getParent();
     React.useEffect(() => {
-      console.log('MainScreen useLayoutEffect');
-      perents.setOptions({
-        headerShown: true,
-  })}, [navigation]) 
+      const unsubscribe = navigation.addListener('focus', () => { 
+        console.log('MainScreen focus');
+        perents.setOptions({
+          headerShown: true,
+        });
+      }); 
+      return unsubscribe;
+    }, [navigation]);
+  
     return ( 
       <Ionicons name="add-circle-outline" size={60} color="black" style={styles.icon} onPress={()=>navigation.push("Add Contact")}/>
     );

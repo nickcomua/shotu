@@ -2,6 +2,8 @@ import React from "react";
 import { SafeAreaView, Button,Text, View } from "react-native";
 import { connect } from "react-redux";
 import i18n from "i18n-js"; 
+
+import * as Google from 'expo-auth-session/providers/google';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 import { RootState } from "../store";
@@ -32,9 +34,26 @@ const pickImage = async (dispatch:any) => {
   };
 export default connect((state: RootState )=> state.user)(({ navigation, dispatch, username } :PropsSettingst) => {
     console.log('Settings') 
+    const [request, response, promptAsync] = Google.useAuthRequest({
+      expoClientId: '374465053579-i9ljfmmppeoi6ccpgmprq9jrt6ijehb9.apps.googleusercontent.com'
+    });
+    React.useEffect(() => {
+      if (response?.type === 'success') {
+        const { authentication } = response;
+        console.log(response);
+
+        }
+    }, [response]);
     return ( 
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <Button title="Pick an image from camera roll" onPress={() => pickImage(dispatch)} />
+            <Button
+      disabled={!request}
+      title="Login"
+      onPress={() => {
+        promptAsync();
+        }}
+    />
         </View> 
     );
   });

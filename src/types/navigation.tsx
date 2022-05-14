@@ -24,14 +24,16 @@ export type  RootDrawParmList = {
 export type RootStackParamList = {
     Welcome: undefined;
     Login: undefined; 
+    SignUp: undefined;
   };
 export type DrawParmList = {
     MainInStack   :undefined,
-    'Add Contact' :undefined
+    'Add Contact' :undefined,
+    'ScanQR'      :undefined,
   }  
 export type PropsWelcome = NativeStackScreenProps<RootStackParamList, 'Welcome', 'Stack'> 
 export type PropsSettingst = DrawerScreenProps<RootDrawParmList, 'Settings', 'Stack'> & RootState['settings']&  RootState['user'] & AppDispatch;
 export type PropsMain = DrawerScreenProps<RootDrawParmList, 'Settings', 'Stack'> 
-export type PropsMainStack = CompositeScreenProps<PropsMain, NativeStackScreenProps<{'MainInStack':undefined,'Add Contact':undefined}, 'MainInStack', 'Drawer'>>
+export type PropsMainStack = CompositeScreenProps<PropsMain, NativeStackScreenProps<DrawParmList, 'MainInStack', 'Drawer'>>
 
-export type PropsAddContactStack = CompositeScreenProps<PropsMain, NativeStackScreenProps<{'MainInStack':undefined,'Add Contact':undefined}, 'MainInStack', 'Drawer'>>
+export type PropsAddContactStack = CompositeScreenProps<PropsMain, NativeStackScreenProps<DrawParmList, 'MainInStack', 'Drawer'>>& RootState['settings']&  RootState['user'] & AppDispatch;
