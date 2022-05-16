@@ -17,35 +17,37 @@ const addcontact = connect((state: RootState) => state.user)(({ navigation, user
     }, [navigation.getParent()]
     );
     const auth = getAuth()
-    const [isLoading, setIsLoading] = React.useState(false); 
+    const [isLoading, setIsLoading] = React.useState(false);
     React.useEffect(() => {
         const f = async () => {
-         const cbtext = await Clipboard.getStringAsync();
-          if(cbtext.length == 28)
-          {
-              alert("QR code is in clipboard"); 
-          }    
-          setIsLoading(true);
+            const cbtext = await Clipboard.getStringAsync();
+            if (cbtext.length == 28 && cbtext != auth.currentUser.uid) {
+                alert("QR code is in clipboard");
+                navigation.push('AddContactMenu', { QrCode: cbtext });
+            }
         }
         f();
-      }, [isLoading]);
+    }, [isLoading]);
 
 
     return (
-    <View style={styles.container}>
-        <Button title="from clipboard" onPress={async () => {
-            const cbtext = await Clipboard.getStringAsync();
-            if(cbtext.length == 28)
-            {
-                alert("QR code is in clipboard"); 
-            }    
-        }
-        } />
-        <Button title='Scan QR code' onPress={() => navigation.push('ScanQR')} />
-        <TouchableOpacity onPress={async () => {await Clipboard.setStringAsync(auth.currentUser.uid)}}>
-        <SvgQRCode value={auth.currentUser.uid} size={300} />
-        </TouchableOpacity>
-    </View>
+        <View style={styles.container}>
+            <Button title="from clipboard" onPress={async () => {
+                const cbtext = await Clipboard.getStringAsync();
+                if (cbtext.length == 28 && cbtext != auth.currentUser.uid) {
+                    alert("QR code is in clipboard");
+                    navigation.push('AddContactMenu', { QrCode: cbtext });
+                }
+                else {
+                    alert("invalid QR code");
+                }
+            }
+            } />
+            <Button title='Scan QR code' onPress={() => navigation.push('ScanQR')} />
+            <TouchableOpacity onPress={async () => { await Clipboard.setStringAsync(auth.currentUser.uid) }}>
+                <SvgQRCode value={auth.currentUser.uid} size={300} />
+            </TouchableOpacity>
+        </View>
     )
 });
 

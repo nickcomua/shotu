@@ -30,10 +30,15 @@ export type DrawParmList = {
     MainInStack   :undefined,
     'Add Contact' :undefined,
     'ScanQR'      :undefined,
+    'AddContactMenu': {QrCode:string},
   }  
+export type BasePops = RootState['settings']&  RootState['user'] & AppDispatch;
 export type PropsWelcome = NativeStackScreenProps<RootStackParamList, 'Welcome', 'Stack'> 
 export type PropsSettingst = DrawerScreenProps<RootDrawParmList, 'Settings', 'Stack'> & RootState['settings']&  RootState['user'] & AppDispatch;
-export type PropsMain = DrawerScreenProps<RootDrawParmList, 'Settings', 'Stack'> 
-export type PropsMainStack = CompositeScreenProps<PropsMain, NativeStackScreenProps<DrawParmList, 'MainInStack', 'Drawer'>>
+export type PropsMain = CompositeScreenProps<DrawerScreenProps<RootDrawParmList, 'Main', 'Stack'>,PropsMainStack>
+export type PropsMainStack = NativeStackScreenProps<DrawParmList, 'MainInStack', 'Drawer'>
 
-export type PropsAddContactStack = CompositeScreenProps<PropsMain, NativeStackScreenProps<DrawParmList, 'MainInStack', 'Drawer'>>& RootState['settings']&  RootState['user'] & AppDispatch;
+export type PropsAddContactStack = NativeStackScreenProps<DrawParmList, 'MainInStack', 'Drawer'>& RootState['settings']&  RootState['user'] & AppDispatch;
+
+export type PropsQRCodeStack = NativeStackScreenProps<DrawParmList, 'ScanQR', 'Drawer'>& RootState['settings']&  RootState['user'] & AppDispatch;
+export type PropsAddContactMenuStack = NativeStackScreenProps<DrawParmList, 'AddContactMenu', 'Drawer'>& RootState['settings']&  RootState['user'] & AppDispatch;

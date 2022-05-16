@@ -2,7 +2,8 @@ import { DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawe
 import React, { useEffect } from "react";
 import { AntDesign } from '@expo/vector-icons'; 
 import { SafeAreaView, Button, Text, View,Image, ImageBackground, TouchableHighlight, TouchableOpacity } from "react-native";
-export default ({props, username,dispatch,photo}:any):any => { 
+import { auth } from "../firebase";
+export default ({props, username,dispatch,photo, bio}:any):any => { 
   
     return (
       <View style={{flex: 1}}>
@@ -28,16 +29,17 @@ export default ({props, username,dispatch,photo}:any):any => {
               }}>
               {username}
             </Text>
-            {/* <View style={{flexDirection: 'row'}}>
+            <View style={{flexDirection: 'row'}}>
               <Text
                 style={{
                   color: '#fff',
                   fontFamily: 'Roboto-Regular',
                   marginRight: 5,
+                  marginLeft: 15,
                 }}>
-                {getUniqueId()}
+                {bio}
               </Text> 
-            </View>  */}
+            </View>  
           {/* </ImageBackground> */}
           <View style={{flex: 1, backgroundColor: '#fff', paddingTop: 10}}>
             <DrawerItemList {...props} />
@@ -64,7 +66,7 @@ export default ({props, username,dispatch,photo}:any):any => {
             </View>
           </TouchableOpacity>
         
-          <TouchableOpacity onPress={() => {dispatch({type:'LOGOUT'})}} style={{paddingVertical: 15}}>
+          <TouchableOpacity onPress={() => {auth.signOut(); dispatch({type:'LOGOUT'})}} style={{paddingVertical: 15}}>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <AntDesign name="logout" size={24} color="black" />
   

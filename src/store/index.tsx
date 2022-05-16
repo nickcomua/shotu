@@ -4,11 +4,10 @@ import settingsReducer from './settings'
 import autoMergeLevel2 from 'redux-persist/es/stateReconciler/autoMergeLevel2'
 import { persistStore,persistReducer } from 'redux-persist' 
 import thunk from 'redux-thunk'
-import createSecureStore from "redux-persist-expo-securestore";
-const storage = createSecureStore()
+import AsyncStorage from  '@react-native-async-storage/async-storage'  
 const persistConfig : any= {
   key: 'root',
-  storage,
+  storage : AsyncStorage,
   stateReconciler: autoMergeLevel2 // may be error
 }
 const reducers = combineReducers({
@@ -23,7 +22,7 @@ const reducers = combineReducers({
  export const store = configureStore({
      reducer: persistedReducer,
     // devTools: process.env.NODE_ENV !== 'production',
-     middleware: [thunk]
+    middleware: [thunk]
  });
 
  export type RootState  = ReturnType<typeof store.getState>
