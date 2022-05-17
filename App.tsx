@@ -42,8 +42,7 @@ i18n.fallbacks = true;
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Drawer = createDrawerNavigator<RootDrawParmList>();
-export default function App() {
-  getAdditionalUserInfo(auth.currentUser.c)
+export default function App() { 
   return null
   return (
     <Provider store={store}>
