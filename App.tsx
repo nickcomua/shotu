@@ -43,7 +43,7 @@ i18n.fallbacks = true;
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Drawer = createDrawerNavigator<RootDrawParmList>();
 export default function App() {
-  getAdditionalUserInfo(auth.currentUser.)
+  getAdditionalUserInfo(auth.currentUser.c)
   return null
   return (
     <Provider store={store}>
@@ -88,7 +88,7 @@ const Base = connect((state: RootState) => { return { ...state.user, ...state.se
         if(isFinite){
           if(uid1 == uid)
           {
-            dispatch({ type: "ADD_CONTACT", payload: {id:uid2,username:} })
+           // dispatch({ type: "ADD_CONTACT", payload: {id:uid2,username:} })
           }
           else if(uid2 == uid)
           {
