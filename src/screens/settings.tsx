@@ -39,7 +39,7 @@ const pickImage = async (dispatch: any) => {
     //   console.log('Uploaded a data_url string!');
     // });
     //dispatch({type: 'SET_LOADING_TRUE'})
-    dispatch({ type: "SET_PHOTO", payload:"data:image/jpeg;base64,"+(result as any).base64 });
+    //dispatch({ type: "SET_PHOTO", payload:"data:image/jpeg;base64,"+(result as any).base64 });
   }
 };
 export default connect((state: RootState) => state.user)

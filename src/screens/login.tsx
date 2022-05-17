@@ -14,6 +14,7 @@ import { initializeApp } from "firebase/app";
 import { auth, db } from "../firebase";
 import { get } from "@firebase/database";
 import { ref } from "firebase/database";
+import { batch } from "react-redux";
 
 
 
@@ -27,10 +28,13 @@ export default connect((state: RootState) => { return { ...state.user, ...state.
     updateProfile(userr, { "displayName": logintext })
 
     const photo = await get(ref(db, 'avatars/default')) 
-
+    console.log(photo.val())
+    batch(()=>{
+    dispatch({ type: "SET_UID", payload: userr.uid })
     dispatch({ type: 'SET_PHOTO', payload:  photo.val()});
-    dispatch({type: 'SET_USERNAME', payload: logintext})
-    dispatch({ type: 'LOGIN' })
+    dispatch({ type: 'SET_USERNAME', payload: logintext})
+    dispatch({ type: 'LOGIN' })}
+    )
   }
   return (
     <SafeAreaView style={{ padding: 20, marginTop: 50 }}>

@@ -24,6 +24,7 @@ import { auth, db } from './src/firebase';
 import {
   onAuthStateChanged,
   updateProfile,
+  getAdditionalUserInfo
 } from 'firebase/auth';
 import { ref, get, onValue } from 'firebase/database';
 
@@ -42,6 +43,8 @@ i18n.fallbacks = true;
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Drawer = createDrawerNavigator<RootDrawParmList>();
 export default function App() {
+  getAdditionalUserInfo(auth.currentUser.)
+  return null
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
@@ -54,14 +57,21 @@ export default function App() {
 const Base = connect((state: RootState) => { return { ...state.user, ...state.settings } })
   (({ dispatch, isLogined, username, isLoading, photo, bio, uid }: BasePops) => {
     //dispatch({type:"LOGOUT" });  
-    console.log(photo)
+    console.log(!!photo)
+    console.log(bio, username, uid)
+    //dispatch({ type: 'LOGOUT' });
+
     // onAuthStateChanged(auth, user => {
-    //   if (user) {
+    //   console.log(321)
+    //   console.log(user)
+    //   if (user != null) {
     //     dispatch({ type: "LOGIN" })
+    //     dispatch({ type: "SET_USERNAME", username: user.displayName })
     //     dispatch({ type: "SET_UID", payload: user.uid })
     //   }
     //   else {
-    //     //dispatch({ type: "LOGOUT" })
+    //     console.log("not logined")
+    //     dispatch({ type: "LOGOUT" })
     //   }
     // });
 
@@ -73,9 +83,27 @@ const Base = connect((state: RootState) => { return { ...state.user, ...state.se
       'Inter-Bold': require('./assets/fonts/Inter-Bold.ttf'),
       'Roboto-MediumItalic': require('./assets/fonts/Roboto-MediumItalic.ttf'),
     });
+    onValue(ref(db,'/contacts'), (snapshot) => {
+      snapshot.val().forEach(({uid1,uid2,isFinite}) => {
+        if(isFinite){
+          if(uid1 == uid)
+          {
+            dispatch({ type: "ADD_CONTACT", payload: {id:uid2,username:} })
+          }
+          else if(uid2 == uid)
+          {
+            
+          }
+        }
+      })
+    });
+
     onValue(ref(db, 'avatars/' + uid), (snapshot) => {
-      console.log(uid) 
-      dispatch({ type: 'SET_PHOTO', payload: snapshot.val() })
+      console.log(uid)
+      console.log(123)
+      if (snapshot.val()) {
+        dispatch({ type: 'SET_PHOTO', payload: snapshot.val() })
+      }
     });
 
     React.useEffect(() => {
